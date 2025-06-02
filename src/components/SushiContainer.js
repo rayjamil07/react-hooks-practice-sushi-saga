@@ -5,19 +5,23 @@ import Sushi from "./Sushi";
 function SushiContainer({ sushis, onEatSushi, eaten }) {
   const [ sushiIndex,setSushiIndex ] = useState(0);
 
-  const sushiCard = sushis.slice(sushiIndex, sushiIndex + 4).map((sushi) => {
+  function handleMoreSushi () {
+    setSushiIndex(sushiIndex + 4);
+  }
+
+  const sushiCard = sushis.slice(sushiIndex, sushiIndex + 5).map((sushi) => {
     return <Sushi
-      key={sushis.id}
-      sushi={sushis}
+      key={sushi.id}
+      sushi={sushi}
       onEatSushi={onEatSushi}
-      eaten={eaten.some(e => e.id === sushis.id)}
+      eaten={sushi.eaten}
     />
   });
   
   return (
     <div className="belt">
       {sushiCard}
-      <MoreButton />
+      <MoreButton handleMoreSushi={handleMoreSushi}/>
     </div>
   );
 }

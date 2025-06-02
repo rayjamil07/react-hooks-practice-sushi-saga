@@ -6,28 +6,29 @@ import Table from "./Table";
 
 function App() {
   const [ sushis,setSushis ] = useState([]);
-  const [ wallet, setWallet ] = useState(100);
+  const [ wallet,setWallet ] = useState(100);
 
   useEffect(() => {
     fetch(API)
     .then(response => response.json())
     .then((sushis) => {
-        const updatedSushis = sushis.map(() => {
-      return {...sushis, eaten:false}
+      const updatedSushis = sushis.map((sushi) => {
+      return {...sushi, eaten:false}
     });
       setSushis(updatedSushis);
     });
-  }, []);
+  },[]);
 
 
   const eatenSushi = sushis.filter((sushi) => sushi.eaten);
 
-  function eatSushi () {
+  function eatSushi (eatenSushi) {
     if (wallet >= eatenSushi.price ) {
       const updatedSushis = sushis.map((sushi) => {
         if (sushi.id === eatenSushi.id) {
-          return {...sushis, eaten:true}
+          return {...sushi, eaten:true}
         }
+        return sushi;
       })
         setSushis(updatedSushis)
         setWallet(() => wallet - eatenSushi.price)
